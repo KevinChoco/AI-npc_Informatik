@@ -377,8 +377,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 0
+  m_fontSizeBase: 0
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -933,11 +933,8 @@ MonoBehaviour:
   dialogue:
     name: Jack Black
     sentences:
-    - Hi! My name is Jack Black!
     - 'I will be your guide from now on. '
     - 'You can ask me anything about this place, I will answer all of your questions. '
-    - 
-    - 
 --- !u!114 &1546898531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1093,7 +1090,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 55cdb5dd7b5da4cd08868be360702562, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
