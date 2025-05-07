@@ -8,17 +8,16 @@ public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
     public TMP_Text dialogueText;
-    
+    public AIManager aiManager; // Add reference to AIManager
+
     private Queue<string> sentences;
 
-    // Start is called before the first frame update
     void Start()
     {
         sentences = new Queue<string>();
-
     }
 
-    public void StartDialogue (Dialogue dialogue) 
+    public void StartDialogue(Dialogue dialogue)
     {
         Debug.Log("Starting test dialogue with " + dialogue.name);
 
@@ -34,7 +33,7 @@ public class DialogueManager : MonoBehaviour
         DisplayNextSentence();
     }
 
-    public void DisplayNextSentence ()
+    public void DisplayNextSentence()
     {
         if (sentences.Count == 0)
         {
@@ -47,7 +46,7 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(TypeSentence(sentence));
     }
 
-    IEnumerator TypeSentence (string sentence)
+    IEnumerator TypeSentence(string sentence)
     {
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
@@ -57,8 +56,25 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    void EndDialogue() {
-
+    void EndDialogue()
+    {
+        // Optional: clear text or disable dialogue UI here
     }
 
+    // Method to enqueue a single response string (e.g., from AI) and display it
+    public void EnqueueAndDisplay(string response)
+    {
+        sentences.Clear();
+        sentences.Enqueue(response);
+        DisplayNextSentence();
+    }
+
+    // Trigger AI response based on the player input or a prompt
+    public void GenerateAIResponse(string prompt)
+    {
+        aiManager.GetAIResponse(prompt, response =>
+        {
+            EnqueueAndDisplay(response); // Enqueue AI response
+        });
+    }
 }
