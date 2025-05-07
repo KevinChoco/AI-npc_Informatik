@@ -7,9 +7,8 @@ using TMPro;
 public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
-    public TextMeshProUGUI dialogueText;
-    public Animator animator;
-
+    public TMP_Text dialogueText;
+    
     private Queue<string> sentences;
 
     // Start is called before the first frame update
@@ -21,7 +20,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue (Dialogue dialogue) 
     {
-        animator.SetBool("IsOpen", true);
+        Debug.Log("Starting test dialogue with " + dialogue.name);
 
         nameText.text = dialogue.name;
 
@@ -59,7 +58,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     void EndDialogue() {
-         animator.SetBool("IsOpen", false);
+
     }
 
 }

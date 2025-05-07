@@ -6,10 +6,11 @@ public class DialogueTrigger : MonoBehaviour
 {
     // Start is called before the first frame update
     public Dialogue dialogue;
+    public DialogueManager manager;
         
     public void TriggerDialogue() 
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        manager.StartDialogue(dialogue);
     }
     
 }
