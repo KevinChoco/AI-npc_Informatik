@@ -1347,6 +1347,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e89a04ecf6e484fbcd9ac506db90dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameText: {fileID: 161357089}
+  dialogueText: {fileID: 904692206}
+  animator: {fileID: 0}
+  npcName: AI NPC
+  prompt: You are a helpful NPC in a medieval village.
+  openAIApiKey: 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
 --- !u!1 &1546898528
 GameObject:
   m_ObjectHideFlags: 0

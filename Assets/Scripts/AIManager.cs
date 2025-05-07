@@ -25,6 +25,8 @@ public class AIManager : MonoBehaviour
 
     private Queue<string> sentences;
     private HttpClient httpClient;
+    
+    private bool useAI = true; // This variable determines whether to use AI
 
     private void Awake()
     {
@@ -41,18 +43,23 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    // Trigger AI response and handle dialogue display
     public async void TriggerAIResponse(string playerInput)
     {
-        animator.SetBool("IsOpen", true);
-        nameText.text = npcName;
+        if (useAI) // Check if AI responses are enabled
+        {
+            animator.SetBool("IsOpen", true);
+            nameText.text = npcName;
 
-        sentences.Clear();
-        string aiResponse = await GetAIResponse(playerInput, prompt);
-        sentences.Enqueue(aiResponse);
+            sentences.Clear();
+            string aiResponse = await GetAIResponse(playerInput, prompt);
+            sentences.Enqueue(aiResponse);
 
-        DisplayNextSentence();
+            DisplayNextSentence();
+        }
     }
 
+    // Display the next sentence in the queue
     public void DisplayNextSentence()
     {
         if (sentences.Count == 0)
@@ -66,6 +73,7 @@ public class AIManager : MonoBehaviour
         StartCoroutine(TypeSentence(sentence));
     }
 
+    // Coroutine to display the sentence one character at a time
     IEnumerator TypeSentence(string sentence)
     {
         dialogueText.text = "";
@@ -76,17 +84,20 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    // End the dialogue when it's finished
     void EndDialogue()
     {
         animator.SetBool("IsOpen", false);
     }
 
+    // Get AI's response from OpenAI API
     private async Task<string> GetAIResponse(string input, string context)
     {
         var requestData = new
         {
             model = "gpt-3.5-turbo",
-            messages = new[] {
+            messages = new[] 
+            {
                 new { role = "system", content = context },
                 new { role = "user", content = input }
             },
@@ -100,7 +111,24 @@ public class AIManager : MonoBehaviour
         var response = await httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);
         string responseText = await response.Content.ReadAsStringAsync();
 
-        dynamic result = JsonConvert.DeserializeObject(responseText);
-        return result.choices[0].message.content;
+        // Deserialize to strongly-typed object
+        var aiResponse = JsonConvert.DeserializeObject<AIResponse>(responseText);
+        return aiResponse.choices[0].message.content;
+    }
+
+    // Define the structure of the response
+    public class Choice
+    {
+        public Message message { get; set; }
+    }
+
+    public class Message
+    {
+        public string content { get; set; }
+    }
+
+    public class AIResponse
+    {
+        public List<Choice> choices { get; set; }
     }
 }
